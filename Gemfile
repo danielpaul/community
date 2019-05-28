@@ -35,21 +35,12 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'haml-rails', '~> 2.0'
-
-gem 'strong_migrations'
+gem 'autoprefixer-rails'
+gem 'high_voltage', '~> 3.1'
 
 gem 'activeadmin'
 
-gem 'rubocop'
-
-gem 'autoprefixer-rails'
-
-gem 'high_voltage', '~> 3.1'
-
 gem 'rack-timeout'
-
-gem 'paranoia', '~> 2.2'
-
 gem 'sidekiq'
 
 group :development, :test do
@@ -66,13 +57,14 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 
   gem 'letter_opener'
-
   gem 'annotate'
-
-  gem 'bullet'
-
   gem "better_errors"
   gem "binding_of_caller"
+
+  gem 'bullet'
+  gem 'rubocop'
+  gem 'paranoia', '~> 2.2'
+  gem 'strong_migrations'
 end
 
 group :test do
