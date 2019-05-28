@@ -38,7 +38,7 @@ gem 'haml-rails', '~> 2.0'
 gem 'autoprefixer-rails'
 gem 'high_voltage', '~> 3.1'
 
-gem 'activeadmin'
+#gem 'activeadmin'
 
 gem 'rack-timeout'
 gem 'sidekiq'
