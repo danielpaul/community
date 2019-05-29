@@ -34,14 +34,19 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+# Front-end
 gem 'haml-rails', '~> 2.0'
 gem 'autoprefixer-rails'
 gem 'high_voltage', '~> 3.1'
 
 #gem 'activeadmin'
 
+# Performance
 gem 'rack-timeout'
 gem 'sidekiq'
+
+# Features
+gem 'paranoia', '~> 2.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -63,7 +68,6 @@ group :development do
 
   gem 'bullet'
   gem 'rubocop'
-  gem 'paranoia', '~> 2.2'
   gem 'strong_migrations'
 end
 
