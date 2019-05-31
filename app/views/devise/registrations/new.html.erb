@@ -41,6 +41,11 @@
     <%= f.check_box :allow_marketing %> <br />
   </div>
 
+  <div class="field">
+    <%= f.label :user_type %><br>
+    <%= f.select :user_type, User.user_types.keys %>
+  </div>
+
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
