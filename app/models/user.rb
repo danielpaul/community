@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  validates :first_name, :last_name, presence: true
+  validates_uniqueness_of :display_name
+
   enum user_type: [:student, :teacher, :admin]
   enum school_year: [:first_year, :second_year, :third_year, :ty, :fifth_year, :sixth_year]
 
