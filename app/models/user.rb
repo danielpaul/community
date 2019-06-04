@@ -6,6 +6,6 @@ class User < ApplicationRecord
 
   enum user_type: [:student, :teacher, :admin]
 
-  profanity_filter! :display_name, :method => 'dictionary'
-  #=> banned words will be replaced by value in config/dictionary.yml
+  profanity_filter! :first_name, :display_name, :method => 'hollow'
+  #=> all letters except the first and last will be replaced
 end
