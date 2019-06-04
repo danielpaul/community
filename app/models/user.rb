@@ -4,19 +4,31 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  before_create :calculate_graduation_year
+  attr_accessor :school_year
+
+  before_save :calculate_graduation_year
 
   validates :first_name, :last_name, :username, presence: true
-  #validates_uniqueness_of :username
+  validates_uniqueness_of :username
 
   enum user_type: [:student, :teacher, :admin]
 
-  profanity_filter! :first_name, :username, :method => 'hollow'
-  #=> all letters except the first and last will be replaced
+  profanity_filter! :first_name, :last_name, :username
+
+
+  private
 
   def calculate_graduation_year
-    x = 5 - self.school_year
     current_year = Date.today.year
-    self.year_of_graduation = current_year + x
+
+    if Date.today.month > 5
+      # 7 because
+      x = self.ty ? 7 : 6
+    else
+      # because
+      x = self.ty ? 6 : 5
+    end
+
+    self.year_of_graduation = current_year + x - self.school_year
   end
 end
