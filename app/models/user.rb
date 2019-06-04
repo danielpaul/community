@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   before_create :calculate_graduation_year
 
-  validates :first_name, :last_name, presence: true
+  validates :first_name, :last_name, :username, presence: true
   #validates_uniqueness_of :username
 
   enum user_type: [:student, :teacher, :admin]
