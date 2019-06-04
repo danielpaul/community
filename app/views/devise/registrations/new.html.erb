@@ -46,6 +46,12 @@
     <%= f.select :user_type, User.user_types.keys %>
   </div>
 
+  <div class="field">
+    <%= f.label :school_year %><br>
+    <%= f.select :school_year, User.school_years.keys %>
+  </div>
+
+
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
