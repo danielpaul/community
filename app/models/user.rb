@@ -5,4 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   enum user_type: [:student, :teacher, :admin]
+
+  profanity_filter! :display_name, :method => 'dictionary'
+  #=> banned words will be replaced by value in config/dictionary.yml
 end
