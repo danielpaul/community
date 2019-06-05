@@ -36,6 +36,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'devise'
 
+# Community
 gem 'profanity_filter'
 
 group :development, :test do
