@@ -11,7 +11,7 @@ class User < ApplicationRecord
   validates :first_name, :last_name, :username, presence: true
   validates_uniqueness_of :username
 
-  enum user_type: [:student, :teacher, :admin]
+  enum user_type: { student: 0, teacher: 1, admin: 2 }
 
   profanity_filter! :first_name, :last_name, :username
 
