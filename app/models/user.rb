@@ -20,7 +20,6 @@ class User < ApplicationRecord
 
   def calculate_graduation_year
     current_year = Date.today.year
-
     if Date.today.month > 5
       # 7 because
       x = self.ty ? 7 : 6
@@ -28,7 +27,6 @@ class User < ApplicationRecord
       # because
       x = self.ty ? 6 : 5
     end
-
     self.year_of_graduation = current_year + x - self.school_year
   end
 end

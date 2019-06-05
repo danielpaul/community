@@ -8,30 +8,50 @@ RSpec.describe User, type: :model do
   end
 
   context "regesitering before may" do
+    before(:each) do
+      t = Time.local(Date.today.year, 1, 2, 12, 0, 0)
+      Timecop.travel(t)
+    end
+
+    after(:each) do
+      Timecop.return
+    end
+
     context "ty is true" do
-      it "calculates graduation year" do
-        user = FactoryBot.create(:user)
+      it "should let x be 6 " do
+        user = FactoryBot.create(:user, school_year: 2, ty: true)
         expect(user.year_of_graduation).to eq(Date.today.year + 4)
       end
     end
+
     context "ty is false" do
-      it "calculates graduation year" do
-        user = FactoryBot.create(:user)
-        expect(user.year_of_graduation).to eq(Date.today.year + 4)
+      it "should let x be 5" do
+        user = FactoryBot.create(:user, school_year: 2, ty: false)
+        expect(user.year_of_graduation).to eq(Date.today.year + 3)
       end
     end
+
   end
 
   context "regesitering after may" do
+    before(:each) do
+      t = Time.local(Date.today.year, 12, 2, 12, 0, 0)
+      Timecop.travel(t)
+    end
+
+    after(:each) do
+      Timecop.return
+    end
+
     context "ty is true" do
-      it "calculates graduation year" do
-        user = FactoryBot.create(:user)
-        expect(user.year_of_graduation).to eq(Date.today.year + 4)
+      it "should let x be 7" do
+        user = FactoryBot.create(:user, school_year: 2, ty: true)
+        expect(user.year_of_graduation).to eq(Date.today.year + 5)
       end
     end
     context "ty is false" do
-      it "calculates graduation year" do
-        user = FactoryBot.create(:user)
+      it "should let x be 6" do
+        user = FactoryBot.create(:user, school_year: 2, ty: false)
         expect(user.year_of_graduation).to eq(Date.today.year + 4)
       end
     end
