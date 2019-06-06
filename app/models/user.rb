@@ -3,7 +3,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :confirmable, :trackable
+         :confirmable, :trackable,
+         :omniauthable, omniauth_providers: %i[facebook]
 
   attr_accessor :school_year
 
