@@ -1,9 +1,12 @@
 class ApplicationController < ActionController::Base
-  before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :check_user_setup_completion
 
-  protected
+  private
 
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :display_name, :allow_marketing, :user_type ])
+  def check_user_setup_completion
+    if user_signed_in? && !current_user.setup_complete?
+      redirect_to setup_path and return
+    end
   end
+
 end

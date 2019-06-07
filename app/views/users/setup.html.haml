@@ -1,0 +1,34 @@
+
+= form_for @user do |f|
+  .field
+    = f.label :first_name
+    %br/
+    = f.text_field :first_name, autofocus: true, autocomplete: "first_name"
+
+  .field
+    = f.label :last_name
+    %br/
+    = f.text_field :last_name, autofocus: true, autocomplete: "last_name"
+  .field
+    = f.label :username
+    %br/
+    = f.text_field :username, autofocus: true, autocomplete: "username"
+    .field
+      = f.label :school_year
+      %br/
+      = f.number_field :school_year, autofocus: true, autocomplete: "school_year"
+  .field
+    = f.label "Allow Marketing"
+    %br/
+    = f.check_box :allow_marketing
+    %br/
+  .field
+    = f.label "Transition Year"
+    %br/
+    = f.check_box :ty
+    %br/
+  .field
+    = f.label :user_type
+    %br/
+    = f.select :user_type, User.user_types.keys
+  .actions

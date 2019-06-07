@@ -1,4 +1,14 @@
 class User < ApplicationRecord
+
+  # ---------- [ Columns ] ---------- #
+  enum user_type: { student: 0, teacher: 1, admin: 2 }
+  attr_accessor :school_year
+
+
+  # ---------- [ Plugins ] ---------- #
+  extend FriendlyId
+  friendly_id :username_candidates, use: :slugged, slug_column: :username
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -6,30 +16,48 @@ class User < ApplicationRecord
          :confirmable, :trackable,
          :omniauthable, omniauth_providers: %i[facebook]
 
-  attr_accessor :school_year
+  profanity_filter! :first_name, :last_name, :username
 
+
+  # ---------- [ Validations ] ---------- #
+  validates :username, presence: true, uniqueness: true
+  # Validate: self.user_type value is in the valid enums defined
+
+  # ---------- [ Callbacks ] ---------- #
   before_save :calculate_graduation_year
 
-  validates :first_name, :last_name, :username, presence: true
-  validates_uniqueness_of :username
 
-  enum user_type: { student: 0, teacher: 1, admin: 2 }
+  # ---------- [ Methods ] ---------- #
 
-  profanity_filter! :first_name, :last_name, :username
+  def setup_complete?
+    false
+  end
+
+  def get_school_year
+    # TODO
+    return 2
+  end
 
 
   private
 
+  def username_candidates
+    [ self.email.split("@").first, self.first_name ]
+  end
+
   def calculate_graduation_year
-    current_year = Date.today.year
-    if Date.today.month > 5
-      # 7 because
-      x = self.ty ? 7 : 6
-    else
-      # because
-      x = self.ty ? 6 : 5
-    end
-    self.year_of_graduation = current_year + x - self.school_year
+    return true if school_year.blank?
+
+   current_year = Date.today.year
+   if Date.today.month > 5
+     # 7 because
+     x = self.ty ? 7 : 6
+   else
+     # because
+     x = self.ty ? 6 : 5
+   end
+
+   self.year_of_graduation = current_year + x - self.school_year
   end
 
   def self.from_omniauth(auth)
@@ -40,9 +68,9 @@ class User < ApplicationRecord
       user.last_name = auth.info.last_name
       user.username = auth.info.first_name   # assuming the user model has a name
       #user.image = auth.info.image # assuming the user model has an image
-    # If you are using confirmable and the provider(s) you use validate emails,
-    # uncomment the line below to skip the confirmation emails.
-    # user.skip_confirmation!
+      # If you are using confirmable and the provider(s) you use validate emails,
+      # uncomment the line below to skip the confirmation emails.
+      user.skip_confirmation!
     end
   end
 
