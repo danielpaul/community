@@ -89,6 +89,7 @@ group :test do
   gem 'chromedriver-helper'
   gem 'shoulda-matchers'
   gem 'formulaic'
+  gem 'rails-controller-testing'
 
   gem 'timecop'
 end

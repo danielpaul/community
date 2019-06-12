@@ -9,5 +9,6 @@ FactoryBot.define do
     password { Faker::Internet.password }
     school_year { 2 }
     ty { false }
+    allow_marketing { false }
   end
 end
