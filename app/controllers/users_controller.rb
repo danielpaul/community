@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action :set_current_user
 
   def index
-    redirect_to current_user.show
+    redirect_to user_path(current_user.id)
   end
 
   def show

@@ -21,7 +21,7 @@ class User < ApplicationRecord
 
   # ---------- [ Validations ] ---------- #
   validates :username, presence: true, uniqueness: true
-  validates :first_name, :last_name, :school_year, :allow_marketing, :ty, :user_type, presence: true
+  #validates :first_name, :last_name, :school_year, :allow_marketing, :ty, :user_type, presence: true, if: :setup_complete?
   # Validate: self.user_type value is in the valid enums defined
 
   # ---------- [ Callbacks ] ---------- #
