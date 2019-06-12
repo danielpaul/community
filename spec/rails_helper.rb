@@ -8,6 +8,7 @@ require 'rspec/rails'
 require 'support/factory_bot'
 
 require 'faker'
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
