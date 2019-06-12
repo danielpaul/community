@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
   # authenticate user
-  skip_before_action :check_user_setup_completion, only: [:setup]
+  skip_before_action :check_user_setup_completion, only: [:setup, :update]
 
   before_action :set_current_user
 
   def index
-    # redirect to current user show
+    redirect_to current_user.show
   end
 
   def show
@@ -19,10 +19,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update_attributes(params[:user])
-     redirect_to :action => 'show', :id => @patient
+    if @user.update(user_params)
+     redirect_to :action => 'show', :id => @user
     else
-     index
     end
   end
 
@@ -31,6 +30,10 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def user_params
+      params.require(:user).permit(:first_name, :last_name)
+  end
 
   def set_current_user
     @user = current_user

@@ -30,12 +30,33 @@ class User < ApplicationRecord
   # ---------- [ Methods ] ---------- #
 
   def setup_complete?
-    false
+    if current_user.first_name != nil
+      return true
+    else
+      return false
+    end
   end
 
   def get_school_year
-    # TODO
-    return 2
+
+    years_left = self.year_of_graduationn - Date.today.year
+    x = 0
+
+    if Date.today.month > 5
+      if years_left < 3
+        x = 7
+      else
+        x = self.ty ? 7 : 6
+      end
+    else
+      if years_left < 3
+        x = 6
+      else
+        x = self.ty ? 6 : 5
+      end
+    end
+
+    return x - years_left
   end
 
 
