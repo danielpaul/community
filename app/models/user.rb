@@ -21,6 +21,7 @@ class User < ApplicationRecord
 
   # ---------- [ Validations ] ---------- #
   validates :username, presence: true, uniqueness: true
+  validates :first_name, :last_name, :school_year, :allow_marketing, :ty, :user_type, presence: true
   # Validate: self.user_type value is in the valid enums defined
 
   # ---------- [ Callbacks ] ---------- #
@@ -30,7 +31,7 @@ class User < ApplicationRecord
   # ---------- [ Methods ] ---------- #
 
   def setup_complete?
-    if current_user.first_name != nil
+    if self.first_name != nil
       return true
     else
       return false
