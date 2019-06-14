@@ -4,7 +4,7 @@ class Post < ApplicationRecord
 
   # ---------- [ Columns ] ---------- #
   enum status: { published: 0, draft: 1 }
-  enum publicity: { public: 0, unlisted: 1, private: 2 }
+  enum visibility: { public: 0, unlisted: 1, private: 2 }
 
   #------- PLUGINS -------#
   extend FriendlyId

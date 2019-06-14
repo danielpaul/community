@@ -7,7 +7,7 @@ class CreatePosts < ActiveRecord::Migration[6.0]
       t.references :users, null: false
       t.string :title, null: false
       t.integer  :status, default: 0, null: false
-      t.integer  :publicity, default: 0, null: false
+      t.integer  :visibility, default: 0, null: false
       t.timestamps
     end
     add_column :posts, :slug, :string
