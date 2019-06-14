@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :posts
 
   # ---------- [ Columns ] ---------- #
   enum user_type: { student: 0, teacher: 1, admin: 2 }

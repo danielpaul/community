@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
-    @posts = Post.all.page(params[:page])
+    @posts = Post.all
   end
 
   def show
@@ -48,13 +48,10 @@ class PostsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
   def set_post
     @post = Post.friendly.find(params[:id])
-    if @post.hash_id != params[:id]
-      redirect_to action: :show, id: @post.hash_id, status: 301
-    end
   end
 
     # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
-    params.require(:post).permit(:title, :categories_id, :status, :publicity)
+    params.require(:post).permit(:title, :category_id, :status, :visibility)
   end
 end

@@ -1,0 +1,21 @@
+%h2 Log in
+= form_for @post do |f|
+  .field
+    = f.label :title
+    %br/
+    = f.text_field :title, autofocus: true
+  .field
+    = f.label :category_id
+    %br/
+    = f.collection_select :category_id, Category.all, :id, :name
+  .field
+    = f.label :status
+    %br/
+    = f.select :status, Post.statuses.keys
+  .field
+    = f.label :visibility
+    %br/
+    = f.select :visibility, Post.visibilities.keys
+
+  .actions
+    = f.submit "Create"
