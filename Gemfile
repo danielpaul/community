@@ -78,7 +78,7 @@ group :development do
 
   gem 'bullet'
   gem 'rubocop'
-  gem 'strong_migrations'
+  # gem 'strong_migrations'
 end
 
 group :test do
