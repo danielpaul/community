@@ -18,7 +18,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = ENV['mail_sender'] || 'team@example.com'
+  config.mailer_sender = ENV['mail_sender'] || '"Community" <team@example.com>'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -260,7 +260,14 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  config.omniauth :facebook, Rails.application.credentials.dig(Rails.env.to_sym, :facebook, :api_key), Rails.application.credentials.dig(Rails.env.to_sym, :facebook, :api_secret), scope: 'email', callback_url: "http://#{ENV['host'] || 'localhost:3000'}/users/auth/facebook/callback"
+
+  config.omniauth :facebook,
+    Rails.application.credentials.dig(Rails.env.to_sym, :facebook, :api_key),
+    Rails.application.credentials.dig(Rails.env.to_sym, :facebook, :api_secret),
+    scope: 'email',
+    info_fields: 'email,name, verified',
+    image_size: 'large',
+    secure_image_url: true
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
