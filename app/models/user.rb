@@ -10,10 +10,10 @@ class User < ApplicationRecord
 
   before_save :calculate_graduation_year
 
-  validates :first_name, :last_name, :username, presence: true
+  validates :first_name, :last_name, presence: true
   validates_uniqueness_of :username
 
-  enum user_type: { student: 0, teacher: 1, admin: 2 }
+  enum user_type: { admin: 0, teacher: 1, student: 2 }
 
   profanity_filter! :first_name, :last_name, :username
 
