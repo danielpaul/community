@@ -26,7 +26,11 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
+    if @user.destroy
+      redirect_to root_path, notice: 'Account was successfully destroyed.'
+    else
+      redirect_to root_path, notice: 'Account cannot be destroyed.'
+    end
   end
 
   private
