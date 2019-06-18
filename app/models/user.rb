@@ -1,10 +1,8 @@
 class User < ApplicationRecord
-  has_many :posts
 
   # ---------- [ Columns ] ---------- #
   enum user_type: { admin: 0, teacher: 1, student: 2 }
   attr_accessor :school_year
-
 
   # ---------- [ Plugins ] ---------- #
   extend FriendlyId
@@ -20,47 +18,38 @@ class User < ApplicationRecord
   profanity_filter! :first_name, :last_name, :username
 
 
-  # ---------- [ Validations ] ---------- #
-  validates :username, presence: true, uniqueness: true
-  validates :first_name, :last_name, presence: true
-  #validates :first_name, :last_name, :school_year, :allow_marketing, :ty, :user_type, presence: true, if: :setup_complete?
-  # Validate: self.user_type value is in the valid enums defined
+  # ---------- [ Validations ] ----------
+  validates :email, :username, presence: true, uniqueness: true
+  validates :first_name, :last_name, :user_type, presence: true, if: :setup_complete?
+  validates :user_type, inclusion: {in: user_types.keys}
 
   # ---------- [ Callbacks ] ---------- #
   before_save :calculate_graduation_year
 
+
+  # ---------- [ Relations ] ---------- #
+  has_many :posts
+
   # ---------- [ Methods ] ---------- #
 
   def setup_complete?
-    if self.first_name != nil
-      return true
-    else
-      return false
-    end
+    has_to_have_value = [self.first_name, self.last_name]
+    has_to_have_value << self.year_of_graduation if self.student?
+    has_to_have_value.reject{|e| e.blank? }.count == has_to_have_value.count
   end
 
+
   def get_school_year
+    years_left = self.year_of_graduation - Date.today.year
 
-    years_left = self.year_of_graduationn - Date.today.year
-    x = 0
-
-  def calculate_graduation_year
-    return unless self.school_year
-
-    current_year = Date.today.year
+    if(years_left <= 0)
+      return 0
+    end
 
     if Date.today.month > 5
-      if years_left < 3
-        x = 7
-      else
-        x = self.ty ? 7 : 6
-      end
+      x = (years_left < 3 || self.ty) ? 7 : 6
     else
-      if years_left < 3
-        x = 6
-      else
-        x = self.ty ? 6 : 5
-      end
+      x = (years_left < 3 || self.ty) ? 6 : 5
     end
 
     return x - years_left
@@ -70,11 +59,11 @@ class User < ApplicationRecord
   private
 
   def username_candidates
-    [ self.email.split("@").first, self.first_name ]
+    [ self.email&.split("@")&.first, self.first_name ]
   end
 
   def calculate_graduation_year
-    return true if school_year.blank?
+    return if school_year.blank?
 
    current_year = Date.today.year
    if Date.today.month > 5

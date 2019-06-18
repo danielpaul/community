@@ -10,5 +10,6 @@ FactoryBot.define do
     school_year { 2 }
     ty { false }
     allow_marketing { false }
+    user_type { 2 }
   end
 end
