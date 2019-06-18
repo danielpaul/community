@@ -53,6 +53,12 @@ class User < ApplicationRecord
     end
 
     return x - years_left
+
+
+    # years_left = self.year_of_graduation - Date.today.year
+    # years_left += 1 if Date.today.month > 5
+    # years_left += 1 if (years_left < 3 && self.ty)
+    # (years_left <= 0) ? 0 : years_left
   end
 
 
