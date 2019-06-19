@@ -49,8 +49,7 @@ RSpec.describe UsersController, type: :controller do
 
   describe "PUT #update" do
     context "logged out user" do
-      it "redirects to user sign in" do
-        debugger
+      it "redirects to user sign in" do 
         expect(put_update).to redirect_to new_user_session_path
       end
     end

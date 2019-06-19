@@ -70,7 +70,6 @@ class User < ApplicationRecord
   def calculate_graduation_year
     return if school_year.blank?
 
-    debugger
    current_year = Date.today.year
    if Date.today.month > 5
      # 7 because
