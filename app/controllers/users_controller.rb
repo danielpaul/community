@@ -1,11 +1,12 @@
 class UsersController < ApplicationController
-  # authenticate user
-  skip_before_action :check_user_setup_completion, only: [:setup, :update]
 
+
+  skip_before_action :check_user_setup_completion, only: [:setup, :update]
+  before_action :authenticate_user!, except: [:show]
   before_action :set_current_user
 
   def index
-    redirect_to user_path(current_user.id)
+    redirect_to user_path(@user.id)
   end
 
   def show
@@ -22,6 +23,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
      redirect_to :action => 'show', :id => @user
     else
+      render :edit
     end
   end
 
@@ -36,7 +38,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :school_year)
+    params.require(:user).permit(:first_name, :last_name, :school_year, :id)
   end
 
   def set_current_user

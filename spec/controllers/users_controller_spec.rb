@@ -7,7 +7,7 @@ RSpec.describe UsersController, type: :controller do
 
   #------- FACTORY -------#
 
-  let(:user) { create(:user) }
+  let(:user) { create(:user, confirmed_at: Time.now) }
 
   #------- METHODS -------#
 
@@ -49,7 +49,7 @@ RSpec.describe UsersController, type: :controller do
 
   describe "PUT #update" do
     context "logged out user" do
-      it "redirects to user sign in" do 
+      it "redirects to user sign in" do
         expect(put_update).to redirect_to new_user_session_path
       end
     end
@@ -57,6 +57,7 @@ RSpec.describe UsersController, type: :controller do
     context "logged in user" do
       it "allows update" do
         sign_in user
+        put_update
         expect(User.find(user.id).first_name).to eq('John')
       end
     end
