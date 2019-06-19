@@ -43,8 +43,11 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    @article.destroy
-    redirect_to articles_url, notice: 'Article was successfully destroyed.'
+    if @article.destroy
+      redirect_to articles_url, notice: 'Article was successfully destroyed.'
+    else
+      render :index
+    end
   end
 
 
@@ -52,6 +55,8 @@ class ArticlesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
   def set_article
     @article = Article.friendly.find(params[:id])
+
+    authorize @article
   end
 
     # Never trust parameters from the scary internet, only allow the white list through.
