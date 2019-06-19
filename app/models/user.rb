@@ -31,7 +31,6 @@ class User < ApplicationRecord
   has_many :posts
 
   # ---------- [ Methods ] ---------- #
-
   def setup_complete?
     has_to_have_value = [self.first_name, self.last_name]
     has_to_have_value << self.year_of_graduation if self.student?
