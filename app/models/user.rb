@@ -70,6 +70,7 @@ class User < ApplicationRecord
   def calculate_graduation_year
     return if school_year.blank?
 
+    debugger
    current_year = Date.today.year
    if Date.today.month > 5
      # 7 because
@@ -79,7 +80,7 @@ class User < ApplicationRecord
      x = self.ty ? 6 : 5
    end
 
-   self.year_of_graduation = current_year + x - self.school_year
+   self.year_of_graduation = current_year + x - Integer(self.school_year)
   end
 
   def self.from_omniauth(auth)
