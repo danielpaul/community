@@ -15,7 +15,7 @@ class User < ApplicationRecord
 
   enum user_type: { admin: 0, teacher: 1, student: 2 }
 
-  profanity_filter! :first_name, :last_name, :username
+  profanity_filter! :first_name, :last_name
 
 
   private
