@@ -28,7 +28,7 @@ class User < ApplicationRecord
 
 
   # ---------- [ Relations ] ---------- #
-  has_many :posts
+  has_many :articles
 
   # ---------- [ Methods ] ---------- #
   def setup_complete?

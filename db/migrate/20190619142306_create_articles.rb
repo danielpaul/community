@@ -1,7 +1,7 @@
-class CreatePosts < ActiveRecord::Migration[6.0]
+class CreateArticles < ActiveRecord::Migration[6.0]
   disable_ddl_transaction!
   def change
-    create_table :posts do |t|
+    create_table :articles do |t|
 
       t.references :category, null: false
       t.references :user, null: false
@@ -10,7 +10,7 @@ class CreatePosts < ActiveRecord::Migration[6.0]
       t.integer  :visibility, default: 0, null: false
       t.timestamps
     end
-    add_column :posts, :slug, :string
-    add_index :posts, :slug, unique: true, algorithm: :concurrently
+    add_column :articles, :slug, :string
+    add_index :articles, :slug, unique: true, algorithm: :concurrently
   end
 end

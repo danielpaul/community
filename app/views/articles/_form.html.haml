@@ -1,5 +1,4 @@
-%h2 Log in
-= form_for @post do |f|
+= form_for @article do |f|
   .field
     = f.label :title
     %br/
@@ -11,11 +10,11 @@
   .field
     = f.label :status
     %br/
-    = f.select :status, Post.statuses.keys
+    = f.select :status, Article.statuses.keys
   .field
     = f.label :visibility
     %br/
-    = f.select :visibility, Post.visibilities.keys
+    = f.select :visibility, Article.visibilities.keys
 
   .actions
     = f.submit "Create"

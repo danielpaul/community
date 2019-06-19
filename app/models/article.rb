@@ -1,4 +1,4 @@
-class Post < ApplicationRecord
+class Article < ApplicationRecord
   belongs_to :user, required: true
   belongs_to :category, required: true
 

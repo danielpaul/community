@@ -1,6 +1,7 @@
 class Category < ApplicationRecord
 
   has_many :subjects, class_name: 'Category', foreign_key: 'category_id'
+  has_many :articles
 
   #------- PLUGINS -------#
   extend FriendlyId

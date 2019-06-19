@@ -9,6 +9,6 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show, :edit, :update, :destroy]
   get '/setup', to: 'users#setup', as: :setup
 
-  resources :posts, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  resources :articles, only: [:index, :show, :new, :create, :edit, :update, :destroy]
 
 end
