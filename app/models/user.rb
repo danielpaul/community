@@ -15,7 +15,7 @@ class User < ApplicationRecord
          :confirmable, :trackable,
          :omniauthable, omniauth_providers: %i[facebook]
 
-  profanity_filter! :first_name, :last_name, :username
+  profanity_filter! :first_name, :last_name
 
 
   # ---------- [ Validations ] ----------
