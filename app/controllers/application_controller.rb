@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::Base
+  include Pundit
+  protect_from_forgery
+  
   before_action :check_user_setup_completion
 
   private
