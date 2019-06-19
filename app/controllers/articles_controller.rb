@@ -1,9 +1,11 @@
 class ArticlesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_article, only: [:show, :edit, :update, :destroy]
+  after_action :verify_authorized, except: :index
 
   def index
     @articles = Article.all
+    authorize @articles
   end
 
   def show
@@ -13,6 +15,7 @@ class ArticlesController < ApplicationController
   # GET /articles/new
   def new
     @article = current_user.articles.new
+    authorize @article
   end
 
   # GET /articles/1/edit
@@ -22,6 +25,7 @@ class ArticlesController < ApplicationController
   # POST /articles
   def create
     @article = current_user.articles.new(article_params)
+    authorize @article
 
     if @article.save
       redirect_to @article, notice: 'Article was successfully created.'
