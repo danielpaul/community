@@ -1,8 +1,14 @@
 class Article < ApplicationRecord
+
+  #------- ACTIVE STORAGE -------#
+  has_one_attached :featured_image
+  has_many_attached :attachments
+
+  #------- RELATIONS -------#
   belongs_to :user, required: true
   belongs_to :category, required: true
 
-  # ---------- [ Columns ] ---------- #
+  #------- COLUMNS -------#
   enum status: { published: 0, draft: 1 }
   enum visibility: { everyone: 0, personal: 2 }
   enum type: { article: 0, document: 1, link: 2, quizlet: 3, youtube: 4, vimeo: 5 }
