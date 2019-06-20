@@ -2,6 +2,7 @@ class User < ApplicationRecord
 
   # ---------- [ Columns ] ---------- #
   enum user_type: { admin: 0, teacher: 1, student: 2 }
+  enum role: { user: 0, moderator: 1 }
   attr_accessor :school_year
 
   # ---------- [ Plugins ] ---------- #
