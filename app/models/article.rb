@@ -23,6 +23,7 @@ class Article < ApplicationRecord
   validates :type, inclusion: 0..5
 
   validates :title, :status, :visibility, :type, presence: true
+  validates :url, format: { with: URI.regexp }, if: 'url.present?'
 
   #------- SCOPES -------#
   scope :searchable, -> { where(:visibility == everyone && :approved_at != nil && :approved_at < Time.now ) }
