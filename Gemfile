@@ -50,6 +50,7 @@ gem 'paranoia', '~> 2.2'
 gem 'devise'
 gem 'friendly_id', '~> 5.2.4'
 gem 'pundit'
+gem 'active_storage_validations'
 
 # Community
 gem 'profanity_filter'
