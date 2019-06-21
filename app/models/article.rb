@@ -11,29 +11,41 @@ class Article < ApplicationRecord
   #------- ENUMS -------#
   enum status: { published: 0, draft: 1 }
   enum visibility: { everyone: 0, personal: 1 }
-  enum type: { article: 0, document: 1, link: 2, quizlet: 3, youtube: 4, vimeo: 5 }
+  enum article_type: { article: 0, document: 1, link: 2, quizlet: 3, youtube: 4, vimeo: 5 }
 
   #------- PLUGINS -------#
   extend FriendlyId
   friendly_id :title, use: :slugged
 
   #------- VALIDATIONS -------#
-  validates :status, inclusion: 0..1
-  validates :visibility, inclusion: 0..1
-  validates :type, inclusion: 0..5
+  validates :status, inclusion: { in: statuses.keys }
+  validates :visibility, inclusion: { in: visibilities.keys }
+  validates :article_type, inclusion: { in: article_types.keys }
 
-  validates :title, :status, :visibility, :type, presence: true
-  validates :url, format: { with: URI.regexp }, if: 'url.present?'
+  validates :attachments, presence: true, if: -> { article_type == 1 }
+  validates :url, presence: true, if: -> { article_type == 2 }
+
+  validates :title, :user, :category, :status, :visibility, :article_type, presence: true
+
+  validates_length_of :title, minimum: 30, maximum: 150, allow_blank: false
+  #validates :url, format: { with: URI.regexp }, if: 'url.present?'
 
   #------- SCOPES -------#
-  scope :searchable, -> { where(:visibility == everyone && :approved_at != nil && :approved_at < Time.now ) }
+  scope :searchable, -> { where('visibility IS ? AND approved_at IS NOT ? AND approved_at < ?', 0, nil, Time.now) }
 
   #------- METHODS -------#
 
   def approve!
+    if current_user.role == admin
+      self.approved_by = current_user
+      self.approved_at = Time.now
+    else
+      redirect_to root_path, notice: 'You cannot approve articles'
+    end
   end
 
   def searchable?
+    where(:visibility == 'everyone' && :approved_by != nil && :approved_at < Time.now)
   end
 
   def excerpt

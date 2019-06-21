@@ -15,6 +15,10 @@
     = f.label :visibility
     %br/
     = f.select :visibility, Article.visibilities.keys
+  .field
+    = f.label :article_type
+    %br/
+    = f.select :article_type, Article.article_types.keys
 
   .actions
     = f.submit "Create"
