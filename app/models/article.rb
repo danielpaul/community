@@ -27,7 +27,7 @@ class Article < ApplicationRecord
 
   validates :attachments, limit: { min: 0, max: 5 }
   validates :attachments, content_type: ['image/png', 'image/jpg', 'image/jpeg']
-  validates :attachments size: { less_than: 10.megabytes , message: 'is not given between size' }
+  validates :attachments, size: { less_than: 10.megabytes , message: 'is not given between size' }
   validates :featured_image, content_type: ['image/png', 'image/jpg', 'image/jpeg']
 
   validates :title, :user, :category, :status, :visibility, :article_type, presence: true
@@ -36,7 +36,7 @@ class Article < ApplicationRecord
   #validates :url, format: { with: URI.regexp }, if: 'url.present?'
 
   #------- SCOPES -------#
-  scope :searchable, -> { where('visibility IS ? AND approved_at IS NOT ? AND approved_at < ?', 0, nil, Time.now) }
+  scope :searchable, -> { where(visibility: :everyone).where.not(approved_by_id: nil).where('approved_at < ?', Time.now) }
 
   #------- METHODS -------#
 
