@@ -38,6 +38,9 @@ class Article < ApplicationRecord
   #------- SCOPES -------#
   scope :searchable, -> { where(visibility: :everyone).where.not(approved_by_id: nil).where('approved_at < ?', Time.now) }
 
+  # ---------- [ Callbacks ] ---------- #
+  before_destroy :allow_delete?
+
   #------- METHODS -------#
 
   def approve!(user)
@@ -50,13 +53,17 @@ class Article < ApplicationRecord
   end
 
   def searchable?
-    where(:visibility == 'everyone' && :approved_by != nil && :approved_at < Time.now)
+    self.visibility == 'everyone' && self.approved_by != nil && self.approved_at < Time.now
   end
 
   def excerpt
   end
 
   def reading_length
+  end
+
+  def allow_delete?
+    self.approved_at == nil
   end
 
 end
