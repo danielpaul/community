@@ -25,6 +25,11 @@ class Article < ApplicationRecord
   validates :attachments, presence: true, if: -> { article_type == 1 }
   validates :url, presence: true, if: -> { article_type == 2 }
 
+  validates :attachments, limit: { min: 0, max: 5 }
+  validates :attachments, content_type: ['image/png', 'image/jpg', 'image/jpeg']
+  validates :attachments size: { less_than: 10.megabytes , message: 'is not given between size' }
+  validates :featured_image, content_type: ['image/png', 'image/jpg', 'image/jpeg']
+
   validates :title, :user, :category, :status, :visibility, :article_type, presence: true
 
   validates_length_of :title, minimum: 30, maximum: 150, allow_blank: false
@@ -35,9 +40,9 @@ class Article < ApplicationRecord
 
   #------- METHODS -------#
 
-  def approve!
-    if current_user.role == admin
-      self.approved_by = current_user
+  def approve!(user)
+    if user.role == admin
+      self.approved_by = user
       self.approved_at = Time.now
     else
       redirect_to root_path, notice: 'You cannot approve articles'
