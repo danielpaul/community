@@ -19,6 +19,10 @@
     = f.label :article_type
     %br/
     = f.select :article_type, Article.article_types.keys
+  .field
+    = f.label :content
+    %br/
+    = f.rich_text_area :content
 
   .actions
     = f.submit "Create"

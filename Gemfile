@@ -51,7 +51,9 @@ gem 'devise'
 gem 'friendly_id', '~> 5.2.4'
 gem 'pundit'
 gem 'active_storage_validations'
-gem 'impressionist' 
+gem 'impressionist'
+gem 'image_processing', '~> 1.2'
+gem 'webpacker'
 
 # Community
 gem 'profanity_filter'

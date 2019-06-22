@@ -1,4 +1,5 @@
 class Article < ApplicationRecord
+  has_rich_text :content
 
   #------- ACTIVE STORAGE -------#
   has_one_attached :featured_image
