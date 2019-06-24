@@ -54,6 +54,7 @@ gem 'active_storage_validations'
 gem 'impressionist'
 gem 'image_processing', '~> 1.2'
 gem 'webpacker'
+gem 'readingtime' 
 
 # Community
 gem 'profanity_filter'

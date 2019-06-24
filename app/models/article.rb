@@ -1,4 +1,5 @@
 class Article < ApplicationRecord
+
   has_rich_text :content
 
   #------- ACTIVE STORAGE -------#
@@ -27,19 +28,26 @@ class Article < ApplicationRecord
   validates :url, presence: true, if: -> { article_type == 2 }
 
   validates :attachments, limit: { min: 0, max: 5 }
-  validates :attachments, content_type: ['image/png', 'image/jpg', 'image/jpeg']
+  validates :attachments, content_type: [
+    'image/png', 'image/jpg', 'image/jpeg',
+     'application/pdf', 'application/msword',
+     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+     'application/vnd.ms-excel'
+   ]
+
   validates :attachments, size: { less_than: 10.megabytes , message: 'is not given between size' }
   validates :featured_image, content_type: ['image/png', 'image/jpg', 'image/jpeg']
 
-  validates :title, :user, :category, :status, :visibility, :article_type, presence: true
+  validates :title, :user, :content, :category, :status, :visibility, :article_type, presence: true
 
-  validates_length_of :title, minimum: 30, maximum: 150, allow_blank: false
-  #validates :url, format: { with: URI.regexp }, if: 'url.present?'
+  validates_length_of :title, minimum: 10, maximum: 150, allow_blank: false
+  validates_length_of :content, minimum: 250, if: -> { article_type == 0 }
+  validates :url, format: {with: URI::regexp(%w(http https))}, if: -> { url.present? }
 
   #------- SCOPES -------#
   scope :searchable, -> { where(visibility: :everyone).where.not(approved_by_id: nil).where('approved_at < ?', Time.now) }
 
-  # ---------- [ Callbacks ] ---------- #
+  #------- CALLBACKS -------#
   before_destroy :allow_delete?
 
   #------- METHODS -------#
@@ -58,13 +66,62 @@ class Article < ApplicationRecord
   end
 
   def excerpt
+    #self.content[0,100]
+    self.content.truncate(100, :separator => ' ') + " ..."
   end
 
-  def reading_length
+  # NOT DONE YEAT
+  #def reading_length
+    #self.content.reading_time if article?
+  #end
+
+  #NOT DONE YET
+  def quizlet_id
+    regex = /(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:[a-zA-Z0-9_\-]+)?/i
+    match = regex.match(self.url)
+    if match && !match[1].blank?
+      match[1]
+    else
+      nil
+    end
   end
+
+  def youtube_id
+    regex = /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+    match = regex.match(self.url)
+    if match && !match[1].blank?
+      match[1]
+    else
+      nil
+    end
+  end
+
+  def vimeo_id
+    regex = /(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)(?:[a-zA-Z0-9_\-]+)?/i
+    match = regex.match(self.url)
+    if match && !match[1].blank?
+      match[1]
+    else
+      nil
+    end
+  end
+
+  private
 
   def allow_delete?
     self.approved_at == nil
+  end
+
+  def check_url?
+    if self.quizlet?
+      self.quizlet_id.present?
+    elsif self.article_type == 4
+      self.youtube_id.present?
+    elsif self.article_type == 5
+      self.vimeo_id.present?
+    else
+      false
+    end
   end
 
 end
